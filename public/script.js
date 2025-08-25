@@ -1957,6 +1957,321 @@
     }
   }
 
+  // Machine Learning & AI Demo
+  class MachineLearningDemo {
+    constructor() {
+      this.isRunning = false;
+      this.currentDemo = 'pose';
+      this.confidence = 0;
+      this.container = null;
+      this.visualization = null;
+      this.animationId = null;
+      this.init();
+    }
+
+    init() {
+      this.setupElements();
+      this.setupEventListeners();
+      this.createVisualization();
+    }
+
+    setupElements() {
+      this.container = document.querySelector('.ml-container');
+      this.visualization = document.querySelector('.ml-visualization');
+    }
+
+    setupEventListeners() {
+      const toggleBtn = document.getElementById('mlToggle');
+      const poseBtn = document.getElementById('poseDetectionDemo');
+      const objectBtn = document.getElementById('objectRecognitionDemo');
+      const imageBtn = document.getElementById('imageClassificationDemo');
+
+      if (toggleBtn) {
+        toggleBtn.addEventListener('click', () => this.toggle());
+      }
+
+      if (poseBtn) {
+        poseBtn.addEventListener('click', () => this.switchDemo('pose'));
+      }
+
+      if (objectBtn) {
+        objectBtn.addEventListener('click', () => this.switchDemo('object'));
+      }
+
+      if (imageBtn) {
+        imageBtn.addEventListener('click', () => this.switchDemo('image'));
+      }
+    }
+
+    switchDemo(type) {
+      this.currentDemo = type;
+      this.updateStatus('Ready');
+      
+      // Update button states
+      document.querySelectorAll('.ml-demo-selector .btn').forEach(btn => {
+        btn.classList.remove('btn-primary');
+        btn.classList.add('btn-secondary');
+      });
+
+      const activeBtn = document.getElementById(`${type}DetectionDemo`) || 
+                       document.getElementById(`${type}RecognitionDemo`) ||
+                       document.getElementById(`${type}ClassificationDemo`);
+      if (activeBtn) {
+        activeBtn.classList.remove('btn-secondary');
+        activeBtn.classList.add('btn-primary');
+      }
+
+      if (this.isRunning) {
+        this.createVisualization();
+      }
+
+      utils.vibrate(25);
+    }
+
+    toggle() {
+      if (this.isRunning) {
+        this.stop();
+      } else {
+        this.start();
+      }
+      utils.vibrate(30);
+    }
+
+    start() {
+      if (this.isRunning) return;
+      
+      this.isRunning = true;
+      const toggleBtn = document.getElementById('mlToggle');
+      if (toggleBtn) toggleBtn.textContent = 'Stop ML Demo';
+      
+      this.updateStatus('Loading', 'loading');
+      
+      // Simulate model loading time
+      setTimeout(() => {
+        this.updateStatus('Active', 'active');
+        this.createVisualization();
+        this.startAnimation();
+      }, 2000);
+    }
+
+    stop() {
+      this.isRunning = false;
+      const toggleBtn = document.getElementById('mlToggle');
+      if (toggleBtn) toggleBtn.textContent = 'Start ML Demo';
+      
+      this.updateStatus('Ready');
+      
+      if (this.animationId) {
+        cancelAnimationFrame(this.animationId);
+        this.animationId = null;
+      }
+      
+      if (this.visualization) {
+        this.visualization.innerHTML = '';
+      }
+    }
+
+    updateStatus(text, className = '') {
+      const statusElement = document.getElementById('mlStatus');
+      if (statusElement) {
+        statusElement.textContent = text;
+        statusElement.className = `status-indicator ${className}`;
+      }
+    }
+
+    createVisualization() {
+      if (!this.visualization) return;
+
+      this.visualization.innerHTML = '';
+
+      switch (this.currentDemo) {
+        case 'pose':
+          this.createPoseVisualization();
+          break;
+        case 'object':
+          this.createObjectVisualization();
+          break;
+        case 'image':
+          this.createImageVisualization();
+          break;
+      }
+    }
+
+    createPoseVisualization() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 400;
+      canvas.height = 250;
+      canvas.style.maxWidth = '100%';
+      canvas.style.height = 'auto';
+      this.visualization.appendChild(canvas);
+
+      const ctx = canvas.getContext('2d');
+      this.poseCanvas = canvas;
+      this.poseCtx = ctx;
+
+      // Draw initial pose skeleton
+      this.drawPoseSkeleton(ctx, canvas.width / 2, canvas.height / 2);
+    }
+
+    createObjectVisualization() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 400;
+      canvas.height = 250;
+      canvas.style.maxWidth = '100%';
+      canvas.style.height = 'auto';
+      this.visualization.appendChild(canvas);
+
+      const ctx = canvas.getContext('2d');
+      this.objectCanvas = canvas;
+      this.objectCtx = ctx;
+
+      // Draw object detection boxes
+      this.drawObjectDetection(ctx, canvas.width, canvas.height);
+    }
+
+    createImageVisualization() {
+      const container = document.createElement('div');
+      container.style.textAlign = 'center';
+      container.style.padding = '2rem';
+      
+      const title = document.createElement('h5');
+      title.textContent = 'Image Classification Results';
+      title.style.marginBottom = '1rem';
+      title.style.color = 'white';
+      
+      const results = document.createElement('div');
+      results.style.display = 'flex';
+      results.style.flexDirection = 'column';
+      results.style.gap = '0.5rem';
+      
+      const predictions = [
+        { class: 'Cat', confidence: 0.89 },
+        { class: 'Dog', confidence: 0.76 },
+        { class: 'Bird', confidence: 0.23 }
+      ];
+      
+      predictions.forEach(pred => {
+        const item = document.createElement('div');
+        item.style.display = 'flex';
+        item.style.justifyContent = 'space-between';
+        item.style.padding = '0.5rem';
+        item.style.background = 'rgba(255, 255, 255, 0.1)';
+        item.style.borderRadius = '4px';
+        item.style.color = 'white';
+        
+        item.innerHTML = `
+          <span>${pred.class}</span>
+          <span>${(pred.confidence * 100).toFixed(1)}%</span>
+        `;
+        
+        results.appendChild(item);
+      });
+      
+      container.appendChild(title);
+      container.appendChild(results);
+      this.visualization.appendChild(container);
+    }
+
+    drawPoseSkeleton(ctx, centerX, centerY) {
+      ctx.clearRect(0, 0, this.poseCanvas.width, this.poseCanvas.height);
+      
+      // Pose keypoints (simplified)
+      const keypoints = [
+        { x: centerX, y: centerY - 80, name: 'head' },
+        { x: centerX, y: centerY - 40, name: 'neck' },
+        { x: centerX - 30, y: centerY - 20, name: 'leftShoulder' },
+        { x: centerX + 30, y: centerY - 20, name: 'rightShoulder' },
+        { x: centerX - 40, y: centerY + 20, name: 'leftElbow' },
+        { x: centerX + 40, y: centerY + 20, name: 'rightElbow' },
+        { x: centerX, y: centerY + 40, name: 'hip' },
+        { x: centerX - 20, y: centerY + 80, name: 'leftKnee' },
+        { x: centerX + 20, y: centerY + 80, name: 'rightKnee' },
+        { x: centerX - 25, y: centerY + 120, name: 'leftAnkle' },
+        { x: centerX + 25, y: centerY + 120, name: 'rightAnkle' }
+      ];
+
+      // Draw skeleton connections
+      ctx.strokeStyle = '#00ff00';
+      ctx.lineWidth = 3;
+      const connections = [
+        [0, 1], [1, 2], [1, 3], [2, 4], [3, 5], [1, 6], [6, 7], [6, 8], [7, 9], [8, 10]
+      ];
+
+      connections.forEach(([a, b]) => {
+        ctx.beginPath();
+        ctx.moveTo(keypoints[a].x, keypoints[a].y);
+        ctx.lineTo(keypoints[b].x, keypoints[b].y);
+        ctx.stroke();
+      });
+
+      // Draw keypoints
+      ctx.fillStyle = '#ff0066';
+      keypoints.forEach(point => {
+        ctx.beginPath();
+        ctx.arc(point.x, point.y, 6, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      // Add confidence label
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '16px Arial';
+      ctx.fillText('Pose Detected: 94.2%', 10, 25);
+    }
+
+    drawObjectDetection(ctx, width, height) {
+      ctx.clearRect(0, 0, width, height);
+      
+      // Draw sample detected objects
+      const objects = [
+        { x: 50, y: 40, w: 120, h: 80, label: 'Person', conf: 0.92 },
+        { x: 200, y: 60, w: 80, h: 60, label: 'Car', conf: 0.86 },
+        { x: 300, y: 100, w: 60, h: 40, label: 'Dog', conf: 0.78 }
+      ];
+
+      objects.forEach(obj => {
+        // Draw bounding box
+        ctx.strokeStyle = '#00ff00';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(obj.x, obj.y, obj.w, obj.h);
+        
+        // Draw label background
+        ctx.fillStyle = 'rgba(0, 255, 0, 0.8)';
+        ctx.fillRect(obj.x, obj.y - 25, obj.w, 25);
+        
+        // Draw label text
+        ctx.fillStyle = '#000000';
+        ctx.font = '14px Arial';
+        ctx.fillText(`${obj.label} ${(obj.conf * 100).toFixed(1)}%`, obj.x + 5, obj.y - 8);
+      });
+
+      // Add title
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '16px Arial';
+      ctx.fillText('Object Detection Results', 10, 25);
+    }
+
+    startAnimation() {
+      if (!this.isRunning) return;
+
+      // Animate confidence values
+      this.confidence = Math.sin(Date.now() * 0.003) * 0.2 + 0.8;
+      const confidenceElement = document.getElementById('confidenceValue');
+      if (confidenceElement) {
+        confidenceElement.textContent = `${(this.confidence * 100).toFixed(1)}%`;
+      }
+
+      // Animate pose if active
+      if (this.currentDemo === 'pose' && this.poseCtx) {
+        const time = Date.now() * 0.002;
+        const centerX = this.poseCanvas.width / 2 + Math.sin(time) * 10;
+        const centerY = this.poseCanvas.height / 2 + Math.cos(time * 0.7) * 5;
+        this.drawPoseSkeleton(this.poseCtx, centerX, centerY);
+      }
+
+      this.animationId = requestAnimationFrame(() => this.startAnimation());
+    }
+  }
+
   // Mobile Navigation
   class MobileNav {
     constructor() {
@@ -2054,6 +2369,7 @@
     new AudioVisualizer();
     new PhysicsSimulation();
     new CameraVision();
+    new MachineLearningDemo();
     new Carousel();
     new MobileNav();
   }

@@ -526,7 +526,8 @@ code {
 .webgl-container,
 .audio-container,
 .camera-container,
-.physics-container {
+.physics-container,
+.ml-container {
   border: 1px solid var(--border);
   border-radius: 12px;
   overflow: hidden;
@@ -534,9 +535,58 @@ code {
   background: var(--surface);
   min-height: 300px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   position: relative;
+}
+
+.ml-demo-selector {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.ml-visualization {
+  width: 100%;
+  height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 8px;
+  margin: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.status-indicator {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.status-indicator.loading {
+  background: #fef3c7;
+  color: #92400e;
+  border-color: #fbbf24;
+}
+
+.status-indicator.active {
+  background: #d1fae5;
+  color: #065f46;
+  border-color: #10b981;
+}
+
+.status-indicator.error {
+  background: #fee2e2;
+  color: #991b1b;
+  border-color: #f87171;
 }
 
 .webgl-container canvas,
@@ -723,8 +773,14 @@ code {
   .webgl-container,
   .audio-container,
   .camera-container,
-  .physics-container {
+  .physics-container,
+  .ml-container {
     min-height: 250px;
+  }
+  
+  .ml-demo-selector {
+    flex-direction: column;
+    gap: 0.5rem;
   }
 }
 
