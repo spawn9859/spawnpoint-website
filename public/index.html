@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="description" content="Spawnpoint website playground." />
+    <title>Spawnpoint</title>
+    <link rel="preload" href="/styles.css" as="style" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <h1 class="brand">Spawnpoint</h1>
+        <nav class="nav">
+          <a href="/" aria-current="page">Home</a>
+          <a href="#playground">Playground</a>
+          <a href="https://developers.cloudflare.com/pages/" target="_blank" rel="noopener">Cloudflare Pages</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="site-main">
+      <section class="hero container">
+        <h2>Welcome to your web playground</h2>
+        <p>Start editing <code>public/index.html</code>, <code>public/styles.css</code>, and <code>public/script.js</code>.</p>
+        <div class="actions">
+          <button id="counterButton" class="btn">Clicked 0 times</button>
+          <button id="themeToggle" class="btn btn-secondary" aria-pressed="false">Toggle theme</button>
+        </div>
+      </section>
+
+      <section id="playground" class="container card">
+        <h3>Live demo area</h3>
+        <p>Use this section to try out components, layouts, and interactions.</p>
+        <div class="grid">
+          <div class="tile">
+            <h4>Tile A</h4>
+            <p>Quick content block.</p>
+          </div>
+          <div class="tile">
+            <h4>Tile B</h4>
+            <p>Another block for experimenting.</p>
+          </div>
+          <div class="tile">
+            <h4>Tile C</h4>
+            <p>Try adding images, icons, or SVGs.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <small>&copy; <span id="year"></span> Spawnpoint. Deployed with Cloudflare Pages.</small>
+      </div>
+    </footer>
+
+    <noscript>
+      <div class="noscript container">JavaScript is disabled. Some interactive features are unavailable.</div>
+    </noscript>
+    <script src="/script.js" defer></script>
+  </body>
+</html>

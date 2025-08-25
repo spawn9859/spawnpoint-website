@@ -1,0 +1,166 @@
+:root {
+  --bg: #0b0c10;
+  --surface: #121318;
+  --text: #e6e6e6;
+  --muted: #a6a6a6;
+  --brand: #6bc46d; /* green-ish accent */
+  --brand-ink: #0a4124;
+  --border: #262733;
+  --shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+}
+
+:root.light {
+  --bg: #ffffff;
+  --surface: #f6f7f9;
+  --text: #111318;
+  --muted: #475569;
+  --brand: #2563eb; /* blue accent for light mode */
+  --brand-ink: #0b1b3a;
+  --border: #e5e7eb;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family:
+    ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans,
+    Ubuntu, Cantarell, Helvetica Neue, Arial, "Apple Color Emoji",
+    "Segoe UI Emoji";
+  color: var(--text);
+  background: radial-gradient(1200px 600px at 10% -10%, #171822 0%, var(--bg) 60%);
+  line-height: 1.5;
+}
+
+.container {
+  max-width: 960px;
+  padding: 0 1rem;
+  margin: 0 auto;
+}
+
+.site-header {
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(6px);
+  background: color-mix(in oklab, var(--bg) 85%, transparent);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 64px;
+}
+
+.brand {
+  margin: 0;
+  font-size: 1.25rem;
+  letter-spacing: 0.5px;
+}
+
+.nav a {
+  color: var(--muted);
+  text-decoration: none;
+  margin-left: 1rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+}
+.nav a:hover,
+.nav a[aria-current="page"] {
+  color: var(--text);
+  background: color-mix(in oklab, var(--surface) 40%, transparent);
+}
+
+.site-main .hero {
+  padding: 3rem 0 2rem;
+  text-align: left;
+}
+.hero h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+.hero p {
+  color: var(--muted);
+  margin-top: 0;
+}
+
+.actions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.75rem;
+}
+
+.btn {
+  appearance: none;
+  border: 1px solid color-mix(in oklab, var(--brand) 40%, var(--border));
+  background: linear-gradient(180deg, color-mix(in oklab, var(--brand) 18%, var(--surface)), var(--surface));
+  color: var(--text);
+  padding: 0.6rem 0.9rem;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: var(--shadow);
+}
+.btn:hover {
+  filter: brightness(1.04);
+}
+.btn:active {
+  transform: translateY(1px);
+}
+.btn-secondary {
+  background: color-mix(in oklab, var(--surface) 85%, black);
+  border-color: var(--border);
+}
+
+.card {
+  background: color-mix(in oklab, var(--surface) 92%, transparent);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.25rem;
+  box-shadow: var(--shadow);
+}
+
+.grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+.tile {
+  background: color-mix(in oklab, var(--surface) 95%, transparent);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.9rem;
+}
+
+.site-footer {
+  border-top: 1px solid var(--border);
+  margin-top: 3rem;
+  padding: 1.5rem 0;
+  color: var(--muted);
+}
+
+/* 404 page center layout */
+.center-404 {
+  display: grid;
+  place-items: center;
+  min-height: 100dvh;
+  padding: 1rem;
+}
+
+/* Small utility for code look */
+code {
+  background: color-mix(in oklab, var(--surface) 60%, transparent);
+  padding: 0.1rem 0.35rem;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+}
