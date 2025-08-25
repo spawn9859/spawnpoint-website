@@ -1,0 +1,6 @@
+# Example redirects for Cloudflare Pages
+# Redirect old paths if needed
+# /old-path/* /new-path/:splat 301
+
+# Fallback for SPA-style routing (if needed in future)
+# /* /index.html 200
