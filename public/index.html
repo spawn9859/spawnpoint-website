@@ -7,6 +7,8 @@
       content="width=device-width, initial-scale=1, viewport-fit=cover"
     />
     <meta name="description" content="Spawnpoint website playground." />
+    <meta name="theme-color" content="#6bc46d" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#2563eb" media="(prefers-color-scheme: light)" />
     <title>Spawnpoint</title>
     <link rel="preload" href="/styles.css" as="style" />
     <link rel="stylesheet" href="/styles.css" />
@@ -15,9 +17,9 @@
     <header class="site-header">
       <div class="container">
         <h1 class="brand">Spawnpoint</h1>
-        <nav class="nav">
+        <nav class="nav" role="navigation">
           <a href="/" aria-current="page">Home</a>
-          <a href="#playground">Playground</a>
+          <a href="#experiments">Experiments</a>
           <a href="https://developers.cloudflare.com/pages/" target="_blank" rel="noopener">Cloudflare Pages</a>
         </nav>
       </div>
@@ -25,29 +27,81 @@
 
     <main class="site-main">
       <section class="hero container">
-        <h2>Welcome to your web playground</h2>
-        <p>Start editing <code>public/index.html</code>, <code>public/styles.css</code>, and <code>public/script.js</code>.</p>
-        <div class="actions">
-          <button id="counterButton" class="btn">Clicked 0 times</button>
-          <button id="themeToggle" class="btn btn-secondary" aria-pressed="false">Toggle theme</button>
+        <div class="parallax-bg"></div>
+        <div class="hero-content">
+          <h2>Welcome to your interactive playground</h2>
+          <p>A mobile-first web playground with device tilt parallax, canvas animations, and swipeable interactions.</p>
+          <div class="actions">
+            <button id="counterButton" class="btn">Clicked 0 times</button>
+            <button id="themeToggle" class="btn btn-secondary" aria-pressed="false">Toggle theme</button>
+          </div>
         </div>
       </section>
 
-      <section id="playground" class="container card">
-        <h3>Live demo area</h3>
-        <p>Use this section to try out components, layouts, and interactions.</p>
-        <div class="grid">
-          <div class="tile">
-            <h4>Tile A</h4>
-            <p>Quick content block.</p>
+      <section id="experiments" class="experiments container">
+        <h3>Interactive Experiments</h3>
+        <p>Explore mobile-first interactive components with haptic feedback and accessibility features.</p>
+        
+        <!-- Canvas Particle Demo -->
+        <div class="experiment-card">
+          <h4>Canvas Particle Animation</h4>
+          <p>Animated particles that respect your motion preferences and adapt to the current theme.</p>
+          <div class="canvas-container">
+            <!-- Canvas will be created by JavaScript -->
           </div>
-          <div class="tile">
-            <h4>Tile B</h4>
-            <p>Another block for experimenting.</p>
+        </div>
+
+        <!-- Swipeable Carousel -->
+        <div class="experiment-card">
+          <h4>Touch Carousel</h4>
+          <p>Swipe through content with touch gestures and keyboard navigation.</p>
+          <div class="carousel-container" tabindex="0" role="region" aria-label="Image carousel">
+            <div class="carousel-track">
+              <div class="carousel-slide">
+                <div class="slide-content">
+                  <h5>Slide 1</h5>
+                  <p>Mobile-first design with smooth touch interactions.</p>
+                </div>
+              </div>
+              <div class="carousel-slide">
+                <div class="slide-content">
+                  <h5>Slide 2</h5>
+                  <p>Responsive layouts that adapt to any screen size.</p>
+                </div>
+              </div>
+              <div class="carousel-slide">
+                <div class="slide-content">
+                  <h5>Slide 3</h5>
+                  <p>Progressive enhancement with graceful fallbacks.</p>
+                </div>
+              </div>
+              <div class="carousel-slide">
+                <div class="slide-content">
+                  <h5>Slide 4</h5>
+                  <p>Accessibility-focused with proper ARIA labels.</p>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="tile">
-            <h4>Tile C</h4>
-            <p>Try adding images, icons, or SVGs.</p>
+        </div>
+
+        <!-- Legacy playground section for backward compatibility -->
+        <div class="experiment-card">
+          <h4>Component Tiles</h4>
+          <p>Quick content blocks for experimenting with layouts and styling.</p>
+          <div class="grid">
+            <div class="tile">
+              <h5>Tile A</h5>
+              <p>Quick content block with improved mobile styling.</p>
+            </div>
+            <div class="tile">
+              <h5>Tile B</h5>
+              <p>Another block for experimenting with responsive design.</p>
+            </div>
+            <div class="tile">
+              <h5>Tile C</h5>
+              <p>Try adding images, icons, or interactive elements.</p>
+            </div>
           </div>
         </div>
       </section>

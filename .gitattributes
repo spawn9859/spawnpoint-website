@@ -1,0 +1,7 @@
+* text=auto eol=lf
+*.{cmd,[cC][mM][dD]} text eol=crlf
+*.{bat,[bB][aA][tT]} text eol=crlf
+
+# Images should be treated as binary
+*.{png,jpg,jpeg,gif,webp,svg,ico} binary
+*.woff2 binary
